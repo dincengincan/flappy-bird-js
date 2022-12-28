@@ -105,8 +105,8 @@ function updateBird() {
   ctx.font = "50px Arial";
   ctx.fillText("🐤", birdX - 15, birdY + 30);
 
-  ctx.fillStyle = "red";
-  ctx.fillRect(birdX, birdY, 25, 25);
+  //   ctx.fillStyle = "red";
+  //   ctx.fillRect(birdX, birdY, 25, 25);
 
   gravity += velocity;
 
