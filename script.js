@@ -1,17 +1,21 @@
 const canvas = document.querySelector("canvas");
 const counter = document.querySelector("#counter");
+const score = document.querySelector("#score");
 const restartButton = document.querySelector("button");
 
 canvas.height = 800;
 canvas.width = 600;
 
+let level = 3;
+
 let interval;
 let countdown = 3;
+let pipePassed = 0;
 
 let gravity = 0;
 let velocity = 0.2;
 
-const pipeWidth = 50;
+const pipeWidth = 70;
 const pipeGapHeight = 250;
 const pipeGapWidth = (canvas.width - 2 * pipeWidth) / 3 + pipeWidth;
 const minPipeHeight = 50;
@@ -80,19 +84,29 @@ function updatePipe() {
     );
 
     // update positions
-    pipe.upperPipeX -= 3;
-    pipe.lowerPipeX -= 3;
+    pipe.upperPipeX -= level;
+    pipe.lowerPipeX -= level;
   });
 
   // shift first element when it goes out of screen and add new one at the end
   if (pipes[0].upperPipeX < pipeWidth * -1) {
     pipes.shift();
     drawPipe(pipeWidth);
+    pipePassed++;
+    score.innerText = pipePassed;
+
+    // make game harder progressively after 5 pipes
+    if (pipePassed !== 0 && pipePassed % 5 === 0) {
+      level += 0.2;
+    }
   }
 }
 function updateBird() {
-  ctx.font = "25px Arial";
-  ctx.fillText("🐤", birdX - 4, birdY + 19);
+  ctx.font = "50px Arial";
+  ctx.fillText("🐤", birdX - 15, birdY + 30);
+
+  ctx.fillStyle = "red";
+  ctx.fillRect(birdX, birdY, 25, 25);
 
   gravity += velocity;
 
@@ -105,21 +119,25 @@ function updateBird() {
 
 function checkCollison(pipeCoor, birdCoor) {
   if (
-    birdCoor.x + 10 >= pipeCoor.upperPipeX &&
-    birdCoor.x + 10 <= pipeCoor.upperPipeX + pipeWidth &&
-    birdCoor.y + 10 <= pipeCoor.upperPipeHeight
+    birdCoor.x + 20 >= pipeCoor.upperPipeX &&
+    birdCoor.x + 20 <= pipeCoor.upperPipeX + pipeWidth &&
+    birdCoor.y <= pipeCoor.upperPipeHeight
   ) {
     gameOver();
   }
   if (
-    birdCoor.x + 10 >= pipeCoor.lowerPipeX &&
-    birdCoor.x + 10 <= pipeCoor.lowerPipeX + pipeWidth &&
-    birdCoor.y + 10 >= pipeCoor.lowerPipeY
+    birdCoor.x + 20 >= pipeCoor.lowerPipeX &&
+    birdCoor.x + 20 <= pipeCoor.lowerPipeX + pipeWidth &&
+    birdCoor.y + 20 >= pipeCoor.lowerPipeY
   ) {
     gameOver();
   }
 
-  if (birdCoor.y + 10 >= canvas.height) {
+  if (birdCoor.y + 20 >= canvas.height) {
+    gameOver();
+  }
+
+  if (birdCoor.y <= 0) {
     gameOver();
   }
 }

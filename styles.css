@@ -21,12 +21,19 @@ canvas {
   max-height: 100%;
 }
 
-span {
+#counter {
   font-size: 10rem;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: white;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+#score {
+  font-size: 4rem;
+  position: absolute;
   color: white;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
