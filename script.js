@@ -2,6 +2,8 @@ const canvas = document.querySelector("canvas");
 const counter = document.querySelector("#counter");
 const score = document.querySelector("#score");
 const restartButton = document.querySelector("button");
+const chickenDead = document.querySelector("#chicken-dead");
+const chickenJump = document.querySelector("#chicken-jump");
 
 canvas.height = 800;
 canvas.width = 600;
@@ -143,6 +145,8 @@ function checkCollison(pipeCoor, birdCoor) {
 }
 
 function gameOver() {
+  chickenDead.play();
+
   ctx.font = "200px Arial";
   ctx.fillText("☠️", 200, 300);
   cancelAnimationFrame(interval);
@@ -163,12 +167,16 @@ const countdownInterval = setInterval(() => {
   }
 }, 1000);
 
-window.addEventListener("keydown", (e) => {
+addEventListener("keydown", (e) => {
   if (e.code === "Space") {
     gravity = -5;
+    chickenJump.currentTime = 0;
+    chickenJump.play();
   }
 });
 
 canvas.addEventListener("touchstart", (e) => {
   gravity = -5;
+  chickenJump.currentTime = 0;
+  chickenJump.play();
 });
