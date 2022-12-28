@@ -150,3 +150,7 @@ window.addEventListener("keydown", (e) => {
     gravity = -5;
   }
 });
+
+canvas.addEventListener("touchstart", (e) => {
+  gravity = -5;
+});
